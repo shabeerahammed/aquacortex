@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0A1628;
+  --color-brand-cyan: #00D9FF;
+  --color-brand-dark: #050B14;
+  --color-brand-text: #B0B8C1;
+
+  --font-sans: 'Inter', sans-serif;
+
+  --background-image-glow-radial: radial-gradient(circle at center, rgba(0, 217, 255, 0.15) 0%, rgba(10, 22, 40, 0) 70%);
+
+  --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.5);
+  --shadow-glow-sm: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-navy text-white font-sans overflow-x-hidden;
+  }
+}
+
+/* Custom Utilities if needed */
+.text-glow {
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
