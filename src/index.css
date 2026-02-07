@@ -1,10 +1,61 @@
 @import "tailwindcss";
 
+:root {
+  /* Default Dark Mode Colors */
+  --c-brand-navy: #0A1628;
+  --c-brand-cyan: #00D9FF;
+  --c-brand-dark: #050B14;
+  --c-brand-text: #B0B8C1;
+
+  --c-white: #ffffff;
+  --c-gray-300: #d1d5db;
+  --c-gray-400: #9ca3af;
+  --c-gray-500: #6b7280;
+
+  --c-bg-glass: rgba(255, 255, 255, 0.05);
+  /* Glass effect bg */
+  --c-border-glass: rgba(255, 255, 255, 0.1);
+  /* Glass border */
+}
+
+/* Light Mode Overrides */
+.light-mode {
+  --c-brand-navy: #f0f9ff;
+  /* Very light blue background */
+  --c-brand-cyan: #0891b2;
+  /* Darker cyan for text visibility */
+  --c-brand-dark: #ffffff;
+  /* White background for dark sections */
+  --c-brand-text: #334155;
+  /* Slate 700 text */
+
+  --c-white: #0f172a;
+  /* Dark text (inverting 'text-white') */
+  --c-gray-300: #334155;
+  /* Darker gray for text */
+  --c-gray-400: #475569;
+  /* Slate 600 */
+  --c-gray-500: #64748b;
+  /* Slate 500 */
+
+  --c-bg-glass: rgba(15, 23, 42, 0.05);
+  /* Dark glass on light bg */
+  --c-border-glass: rgba(15, 23, 42, 0.1);
+  /* Dark border on light bg */
+}
+
 @theme {
-  --color-brand-navy: #0A1628;
-  --color-brand-cyan: #00D9FF;
-  --color-brand-dark: #050B14;
-  --color-brand-text: #B0B8C1;
+  /* Map Tailwind colors to CSS variables */
+  --color-brand-navy: var(--c-brand-navy);
+  --color-brand-cyan: var(--c-brand-cyan);
+  --color-brand-dark: var(--c-brand-dark);
+  --color-brand-text: var(--c-brand-text);
+
+  /* Override standards to support theme switching */
+  --color-white: var(--c-white);
+  --color-gray-300: var(--c-gray-300);
+  --color-gray-400: var(--c-gray-400);
+  --color-gray-500: var(--c-gray-500);
 
   --font-sans: 'Inter', sans-serif;
 
@@ -16,11 +67,25 @@
 
 @layer base {
   body {
-    @apply bg-brand-navy text-white font-sans overflow-x-hidden;
+    /* Use dynamic variables */
+    background-color: var(--c-brand-navy);
+    color: var(--c-white);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
-/* Custom Utilities if needed */
+/* Custom Utilities */
 .text-glow {
   text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+/* Helper for glass effects that might used hardcoded values */
+.bg-glass {
+  background-color: var(--c-bg-glass);
+}
+
+.border-glass {
+  border-color: var(--c-border-glass);
 }

@@ -58,7 +58,7 @@ const Technology = () => {
     ];
 
     return (
-        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy">
+        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy">
             {/* Animated Background Grid */}
             <div className="fixed inset-0 opacity-10 pointer-events-none">
                 <div className="absolute inset-0" style={{

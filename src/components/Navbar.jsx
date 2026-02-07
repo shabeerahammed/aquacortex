@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/aquacortex-logo.svg';
@@ -8,6 +9,7 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const { theme, toggleTheme } = useTheme();
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -52,7 +54,12 @@ const Navbar = () => {
                             whileTap={{ scale: 0.95 }}
                             className="relative"
                         >
-                            <img src={logo} alt="AquaCORTEX" className="h-14 relative z-10" />
+                            <img
+                                src={logo}
+                                alt="AquaCORTEX"
+                                className={`h-14 relative z-10 transition-all duration-300 ${theme === 'light' ? 'invert hue-rotate-180' : ''
+                                    }`}
+                            />
 
                             {/* Glow effect on hover */}
                             <motion.div
@@ -116,8 +123,23 @@ const Navbar = () => {
                         })}
                     </div>
 
-                    {/* Enhanced CTA Button */}
-                    <div className="hidden md:block">
+                    {/* Theme Toggle & CTA */}
+                    <div className="hidden md:flex items-center space-x-4">
+                        {/* Theme Toggle */}
+                        <motion.button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-cyan/30 text-gray-300 hover:text-brand-cyan transition-all"
+                            whileHover={{ scale: 1.1, rotate: 15 }}
+                            whileTap={{ scale: 0.9 }}
+                            aria-label="Toggle Theme"
+                        >
+                            {theme === 'dark' ? (
+                                <Sun className="w-5 h-5" />
+                            ) : (
+                                <Moon className="w-5 h-5" />
+                            )}
+                        </motion.button>
+
                         <Link to="/contact">
                             <motion.button
                                 className="relative px-6 py-2.5 rounded-full 
@@ -198,6 +220,21 @@ const Navbar = () => {
                         >
                             <div className="max-h-[calc(100vh-5rem)] overflow-y-auto">
                                 <div className="px-6 py-6 flex flex-col space-y-2">
+                                    {/* Mobile Theme Toggle */}
+                                    <div className="flex justify-between items-center mb-4 px-4">
+                                        <span className="text-gray-300 font-medium">Appearance</span>
+                                        <motion.button
+                                            onClick={toggleTheme}
+                                            className="p-2 rounded-full bg-white/5 border border-white/10 text-brand-cyan"
+                                            whileTap={{ scale: 0.9 }}
+                                        >
+                                            {theme === 'dark' ? (
+                                                <Sun className="w-5 h-5" />
+                                            ) : (
+                                                <Moon className="w-5 h-5" />
+                                            )}
+                                        </motion.button>
+                                    </div>
                                     {navLinks.map((link, index) => {
                                         const isActive = location.pathname === link.path;
 

@@ -195,7 +195,7 @@ const About = () => {
     ];
 
     return (
-        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy">
+        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy">
             {/* Background Grid */}
             <div className="fixed inset-0 opacity-5 pointer-events-none">
                 <div className="absolute inset-0" style={{
@@ -207,18 +207,22 @@ const About = () => {
 
             {/* Hero Section */}
             <section className="relative py-20 px-6 overflow-hidden">
-                <motion.div
-                    className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.1, 0.2, 0.1]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
+                {/* Glow Blobs Background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+                    {/* Cyan Glow */}
+                    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 
+                                    w-[700px] h-[700px] 
+                                    bg-brand-cyan/10 
+                                    rounded-full blur-[120px]" />
+
+                    {/* Violet Glow */}
+                    <div className="absolute bottom-[-200px] right-[-150px] 
+                                    w-[600px] h-[600px] 
+                                    bg-violet-500/10 
+                                    rounded-full blur-[100px]" />
+
+                </div>
 
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     {/* Badge */}

@@ -15,10 +15,13 @@ import {
     Award,
     Shield,
     Sparkles
+
 } from 'lucide-react';
 import logo from '../assets/aquacortex-logo.svg';
+import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
+    const { theme } = useTheme();
     const [email, setEmail] = useState('');
     const [subscribed, setSubscribed] = useState(false);
 
@@ -47,7 +50,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy border-t border-white/10 overflow-hidden">
+        <footer className="relative bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy border-t border-white/10 overflow-hidden">
             {/* Animated Background Pattern */}
             <div className="absolute inset-0 opacity-5 pointer-events-none">
                 <div className="absolute inset-0" style={{
@@ -158,7 +161,12 @@ const Footer = () => {
                             whileHover={{ scale: 1.05 }}
                             className="inline-block mb-6"
                         >
-                            <img src={logo} alt="AquaCORTEX" className="h-10" />
+                            <img
+                                src={logo}
+                                alt="AquaCORTEX"
+                                className={`h-10 transition-all duration-300 ${theme === 'light' ? 'invert hue-rotate-180' : ''
+                                    }`}
+                            />
                         </motion.div>
 
                         <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">

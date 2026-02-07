@@ -90,7 +90,7 @@ const Contact = () => {
     ];
 
     return (
-        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy">
+        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy">
             {/* Background Grid */}
             <div className="fixed inset-0 opacity-5 pointer-events-none">
                 <div className="absolute inset-0" style={{
@@ -162,8 +162,8 @@ const Contact = () => {
                                     key={type.id}
                                     onClick={() => setActiveForm(type.id)}
                                     className={`relative p-6 rounded-2xl border-2 transition-all ${isActive
-                                            ? 'border-brand-cyan bg-brand-cyan/10'
-                                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                                        ? 'border-brand-cyan bg-brand-cyan/10'
+                                        : 'border-white/10 bg-white/5 hover:border-white/20'
                                         }`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}

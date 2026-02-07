@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import { motion, useSpring, useTransform, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
@@ -46,7 +47,7 @@ const CountUp = ({ value, suffix = "", duration = 2 }) => {
     return <motion.span ref={ref}>{displayValue}</motion.span>;
 };
 
-const ParticleBackground = () => {
+const ParticleBackground = ({ theme }) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -56,6 +57,15 @@ const ParticleBackground = () => {
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        // Get theme colors from CSS variables
+        const computedStyle = getComputedStyle(document.documentElement);
+        // We use a helper to extract RGB values if possible, or just parse the hex/var
+        // Simple approach: Check if we are in light mode by checking a class or variable
+        const isLight = document.documentElement.classList.contains('light-mode');
+
+        const particleColor = isLight ? 'rgba(8, 145, 178, 0.6)' : 'rgba(6, 182, 212, 0.6)'; // Darker cyan for light mode
+        const lineColorBase = isLight ? '8, 145, 178' : '6, 182, 212';
 
         const particles = Array.from({ length: 50 }, () => ({
             x: Math.random() * canvas.width,
@@ -67,7 +77,7 @@ const ParticleBackground = () => {
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(6, 182, 212, 0.6)';
+            ctx.fillStyle = particleColor;
 
             particles.forEach(p => {
                 p.x += p.vx;
@@ -87,7 +97,7 @@ const ParticleBackground = () => {
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < 150) {
-                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.2 * (1 - distance / 150)})`;
+                        ctx.strokeStyle = `rgba(${lineColorBase}, ${0.2 * (1 - distance / 150)})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
@@ -109,12 +119,17 @@ const ParticleBackground = () => {
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    }, [theme]);
+    // To support dynamic switching without reload, we should listen to theme changes.
+    // However, for simplicity/performance we might just accept initial load or use a prop if we hoist this.
+    // Better: Add a mutation observer or just re-run effect when theme changes if we pass it as prop.
 
     return <canvas ref={canvasRef} className="absolute inset-0 z-0" />;
 };
 
 const Home = () => {
+    const { theme } = useTheme();
+
     const howItWorks = [
         {
             emoji: '📊',
@@ -252,38 +267,30 @@ const Home = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy">
+        <div className="min-h-screen bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy">
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
                 {/* Particle Background */}
-                <ParticleBackground />
+                <ParticleBackground theme={theme} />
 
-                {/* Gradient Orbs */}
-                <motion.div
-                    className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.1, 0.2, 0.1]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
-                <motion.div
-                    className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-violet-500/10 rounded-full blur-[100px] pointer-events-none"
-                    animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.1, 0.15, 0.1]
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1
-                    }}
-                />
+
+                {/* Glow Blobs Background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+                    {/* Cyan Glow */}
+                    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 
+                                    w-[700px] h-[700px] 
+                                    bg-brand-cyan/10 
+                                    rounded-full blur-[120px]" />
+
+                    {/* Violet Glow */}
+                    <div className="absolute bottom-[-200px] right-[-150px] 
+                                    w-[600px] h-[600px] 
+                                    bg-violet-500/10 
+                                    rounded-full blur-[100px]" />
+
+                </div>
+
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
                     <motion.h1
@@ -292,7 +299,9 @@ const Home = () => {
                         transition={{ duration: 0.8 }}
                         className="text-5xl lg:text-7xl font-bold leading-tight mb-6"
                     >
-                        AquaCortex
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-blue-400 to-violet-400">
+                            AquaCortex
+                        </span>
                     </motion.h1>
 
                     <motion.p

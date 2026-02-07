@@ -56,14 +56,15 @@ const ImpactCard = ({ title, description, metrics, icon: Icon, align = 'left', g
             <div className="flex-1 space-y-6 relative z-10">
                 {/* Icon Badge */}
                 <motion.div
-                    className={`inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-gradient-to-r ${gradient} bg-opacity-10 border border-brand-cyan/20 backdrop-blur-sm`}
+                    className="relative inline-flex items-center gap-3 px-4 py-2 rounded-full border border-brand-cyan/20 backdrop-blur-sm overflow-hidden"
                     initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 + 0.2 }}
                     whileHover={{ scale: 1.05 }}
                 >
-                    <div className="relative">
+                    <div className={`absolute inset-0 bg-gradient-to-r ${gradient} opacity-10`} />
+                    <div className="relative z-10">
                         <Icon className="w-6 h-6 text-brand-cyan" />
                         <motion.div
                             className="absolute inset-0 bg-brand-cyan/30 blur-lg"
@@ -77,7 +78,7 @@ const ImpactCard = ({ title, description, metrics, icon: Icon, align = 'left', g
                             }}
                         />
                     </div>
-                    <span className="uppercase tracking-widest text-sm font-bold text-brand-cyan">Key Pillar</span>
+                    <span className="relative z-10 uppercase tracking-widest text-sm font-bold text-brand-cyan">Key Pillar</span>
                 </motion.div>
 
                 {/* Title */}
@@ -239,7 +240,7 @@ const Impact = () => {
     ];
 
     return (
-        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-slate-900 to-brand-navy">
+        <div className="pt-24 min-h-screen bg-gradient-to-b from-brand-navy via-brand-dark to-brand-navy">
             {/* Animated Background Grid */}
             <div className="fixed inset-0 opacity-5 pointer-events-none">
                 <div className="absolute inset-0" style={{
@@ -251,19 +252,22 @@ const Impact = () => {
 
             {/* Hero Section */}
             <section className="relative py-20 px-6 max-w-7xl mx-auto overflow-hidden">
-                {/* Background Effects */}
-                <motion.div
-                    className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.1, 0.2, 0.1]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
+                {/* Glow Blobs Background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+                    {/* Cyan Glow */}
+                    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 
+                                    w-[700px] h-[700px] 
+                                    bg-brand-cyan/10 
+                                    rounded-full blur-[120px]" />
+
+                    {/* Violet Glow */}
+                    <div className="absolute bottom-[-200px] right-[-150px] 
+                                    w-[600px] h-[600px] 
+                                    bg-violet-500/10 
+                                    rounded-full blur-[100px]" />
+
+                </div>
 
                 <div className="text-center mb-24 relative z-10">
                     {/* Badge */}
@@ -294,7 +298,7 @@ const Impact = () => {
                             initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="relative text-left bg-gradient-to-br from-teal-900/40 via-brand-navy/80 to-brand-navy p-10 rounded-3xl border border-brand-cyan/30 overflow-hidden group"
+                            className="relative text-left bg-gradient-to-br from-brand-cyan/20 via-brand-navy/90 to-brand-navy p-10 rounded-3xl border border-brand-cyan/30 overflow-hidden group"
                         >
                             {/* Animated Background */}
                             <motion.div
