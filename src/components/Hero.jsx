@@ -64,22 +64,23 @@ const ParticleBackground = ({ theme }) => {
         // Simple approach: Check if we are in light mode by checking a class or variable
         const isLight = document.documentElement.classList.contains('light-mode');
 
-        const particleColor = isLight ? 'rgba(8, 145, 178, 0.6)' : 'rgba(6, 182, 212, 0.6)'; // Darker cyan for light mode
+        const particleColor = isLight ? 'rgba(8, 145, 178, 0.9)' : 'rgba(6, 182, 212, 0.9)'; // Increased opacity
         const lineColorBase = isLight ? '8, 145, 178' : '6, 182, 212';
 
-        const particles = Array.from({ length: 50 }, () => ({
+        const particles = Array.from({ length: 80 }, () => ({ // Increased count from 50 to 80
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             vx: (Math.random() - 0.5) * 0.5,
             vy: (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 2 + 1
+            size: Math.random() * 2 + 1.5 // Minimum size 1.5
         }));
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = particleColor;
 
-            particles.forEach(p => {
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
                 p.x += p.vx;
                 p.y += p.vy;
 
@@ -91,21 +92,22 @@ const ParticleBackground = ({ theme }) => {
                 ctx.fill();
 
                 // Draw connections
-                particles.forEach(p2 => {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 150) {
-                        ctx.strokeStyle = `rgba(${lineColorBase}, ${0.2 * (1 - distance / 150)})`;
+                    if (distance < 180) { // Increased distance
+                        ctx.strokeStyle = `rgba(${lineColorBase}, ${0.4 * (1 - distance / 180)})`; // Increased opacity
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
                     }
-                });
-            });
+                }
+            }
 
             requestAnimationFrame(animate);
         };
@@ -278,16 +280,24 @@ const Home = () => {
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
 
                     {/* Cyan Glow */}
-                    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 
+                    <motion.div
+                        className="absolute top-[-200px] left-1/2 -translate-x-1/2 
                                     w-[700px] h-[700px] 
-                                    bg-brand-cyan/10 
-                                    rounded-full blur-[120px]" />
+                                    bg-brand-cyan/25 
+                                    rounded-full blur-[120px]"
+                        animate={{ y: [-40, 40, -40], x: [-20, 20, -20] }}
+                        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                    />
 
                     {/* Violet Glow */}
-                    <div className="absolute bottom-[-200px] right-[-150px] 
+                    <motion.div
+                        className="absolute bottom-[-200px] right-[-150px] 
                                     w-[600px] h-[600px] 
-                                    bg-violet-500/10 
-                                    rounded-full blur-[100px]" />
+                                    bg-violet-500/25 
+                                    rounded-full blur-[100px]"
+                        animate={{ y: [40, -40, 40], x: [20, -20, 20] }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                    />
 
                 </div>
 

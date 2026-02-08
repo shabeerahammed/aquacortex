@@ -336,7 +336,7 @@ const Impact = () => {
                                 <Heart className="w-5 h-5 mr-2" />
                                 Core Mission
                             </h3>
-                            <p className="text-2xl md:text-3xl font-light leading-relaxed text-white relative z-10">
+                            <p className="text-2xl md:text-2xl font-light leading-relaxed text-white relative z-10">
                                 "To make intelligent aquaculture <span className="text-brand-cyan font-semibold">accessible to everyone</span> — scaling farmers sustainably, rewarding purpose-driven investors, and connecting the world's blue economy through AquaCORTEX intelligence."
                             </p>
 
